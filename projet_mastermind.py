@@ -5,7 +5,7 @@ racine=tk.Tk()
 ################################ création racine 1 /menu #######################
 
 #fonctions pour les commandes des boutons
-def delete_frame():
+def bouton_1_joueur():
     for widget in frame1.winfo_children():
         widget.grid_forget()
         frame2.grid()
@@ -13,15 +13,19 @@ def delete_frame():
 frame1=tk.Frame(racine)
 frame1.grid()
 frame2=tk.Frame(racine)
+frame3=tk.Frame(frame2)
 
 def bouton_multi_joueur():
-    pass
+    for widget in frame1.winfo_children():
+        widget.grid_forget()
+        frame2.grid()
+        frame3.grid(row=7, column=1)
 
 def bouton__reprendre():
     pass
 
 #création des boutons
-bouton_1joueur=tk.Button(frame1, text="1 joueur", command=delete_frame)
+bouton_1joueur=tk.Button(frame1, text="1 joueur", command=bouton_1_joueur)
 bouton_1joueur.grid(row=2, column=2)
 bouton_multijoueur=tk.Button(frame1, text="multijoueur", command=bouton_multi_joueur)
 bouton_multijoueur.grid(row=3, column= 2)
@@ -145,5 +149,38 @@ b_2_effacer.grid(row=14, column=8, columnspan=2)
 
 b_2_valider=tk.Button(frame2, text="valider", command=f_2_valider)
 b_2_valider.grid(row=15, column=8, columnspan=2)
+
+############################### creation racine 3 ################################
+def f_3_1():
+    pass
+
+def f_3_2():
+    pass
+
+def f_3_3():
+    pass
+
+def f_3_4():
+    pass
+
+def f_3_effacer():
+    pass
+
+def f_3_valider():
+    pass
+
+b_3_1=tk.Button(frame3, text="1", command=f_3_1)
+b_3_1.grid(row=1, column=1)
+b_3_2=tk.Button(frame3, text="2", command=f_3_2)
+b_3_2.grid(row=2, column=1)
+b_3_3=tk.Button(frame3, text="3", command=f_3_3)
+b_3_3.grid(row=3, column=1)
+b_3_4=tk.Button(frame3, text="4", command=f_3_4)
+b_3_4.grid(row=4, column=1)
+
+b_3_effacer=tk.Button(frame3, text="effacer", command=f_3_effacer)
+b_3_effacer.grid(row=6, column=1)
+b_3_valider=tk.Button(frame3, text="valider", command=f_3_valider)
+b_3_valider.grid(row=7, column=1)
 
 racine.mainloop()
