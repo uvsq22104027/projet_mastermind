@@ -123,12 +123,12 @@ Fonctions réinitialisation variables et affichage (Replay)
 - Validé : //
 
 #### Sauvegrde :
-    - info a enregistrer :
-        - type de partie (1J ou multi)
-        - code
-        - essai fait
-        (- pas besoin des bien/mal placé, ça ce recalcul)
-    - mise en forme du fichier (où sont les infos)
+- info a enregistrer :
+    - type de partie (1J ou multi)
+    - code
+    - essai fait
+    (- pas besoin des bien/mal placé, ça ce recalcul)
+- mise en forme du fichier (où sont les infos)
 
 
 ## Notes
