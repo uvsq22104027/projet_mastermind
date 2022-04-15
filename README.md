@@ -14,6 +14,7 @@ Valider Joueur 1
 
 ### Elisabeth
 
+Mise en page read me
 Fonctions réinitialisation variables et affichage (Replay)
 
 ## Fonctionalitées principales
@@ -85,13 +86,13 @@ Fonctions réinitialisation variables et affichage (Replay)
 - Réinitialisation de l'affichage
 - Réinitialisation des variables globales
 
-# Tkinter
+### Tkinter
 
-# MENU
+#### MENU
 - reprendre :
     - récupère les infos de sauvegarde
 
-# Sous menu : (en haut à gauche)
+#### Sous menu : (en haut à gauche)
 - Replay : (relance une partie)
     - réinitialise les variables
     - // l'affichage
@@ -105,7 +106,7 @@ Fonctions réinitialisation variables et affichage (Replay)
     - réinitialise les variables
     - retourne au menu
 
-# Joueur 1 : (en bas)
+#### Joueur 1 : (en bas)
 - couleurs :
     - créé les carrés dans canvas
     - remplis la variable global
@@ -115,13 +116,13 @@ Fonctions réinitialisation variables et affichage (Replay)
 - Validé :
     - Passe à la phase d'après
 
-# Joueur 2 : (à gauche, en dessous du sous menu)
+#### Joueur 2 : (à gauche, en dessous du sous menu)
 - 1/2/3/4 : affiche dans le canvas de droite les couleurs bien ou mal placé
     - si multi : J2, si 1 joueur : auto
 - Effacer : (// que pr joueurs 1 mais pour les chiffres ds le canvas 2)
 - Validé : //
 
-## Sauvegrde :
+#### Sauvegrde :
     - info a enregistrer :
         - type de partie (1J ou multi)
         - code
@@ -130,5 +131,5 @@ Fonctions réinitialisation variables et affichage (Replay)
     - mise en forme du fichier (où sont les infos)
 
 
-# Notes
+## Notes
 - pouvoir tricher qu4une fois (bonus)
