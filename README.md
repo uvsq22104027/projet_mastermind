@@ -14,7 +14,6 @@ Valider Joueur 1
 
 ### Elisabeth
 
-Mise en page read me
 Fonctions réinitialisation variables et affichage (Replay)
 
 ## Fonctionalitées principales
