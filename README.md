@@ -1,6 +1,6 @@
-# projet_mastermind
+projet_mastermind
 
-############ Plan d'action ##############
+# Plan d'action ##############
 
 #### Repartition des tâches
 
