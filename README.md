@@ -1,4 +1,4 @@
-# projet_mastermind
+projet_mastermind
 
 # Plan d'action ##############
 
