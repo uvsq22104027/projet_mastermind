@@ -46,6 +46,11 @@ l_2_instructions=tk.Label(frame2, text="Bienvenue sur MasterMind ! \n voici quel
 l_2_instructions.grid(row=1, column=1, columnspan=7)
 
 #fonctions pour les boutons
+"""Variables globales pour les indices donnés au joueur"""
+NbRightPlace = 0
+NbWrongPlace = 0
+
+
 def f_2_replay():
     pass
 
@@ -87,6 +92,27 @@ def f_2_effacer():
 
 def f_2_valider():
     pass
+
+def f_comparaison(l1, l2):
+    global NbRightPlace
+    global NbWrongPlace
+    l_aux = [False, False, False, False]
+    for i in range(4):
+        for j in range(4):
+            if l_aux[j]:
+                continue
+            elif l1[i] == l2[i]:
+                NbRightPlace += 1
+                l_aux[i] = True
+                break
+            elif l1[i] == l2[j]:
+                if i == j:
+                    NbRightPlace += 1
+                else:
+                    NbWrongPlace += 1
+                l_aux[j] = True
+                break
+    print(l_aux)
 
 ####### grille principale ############
 HEIGHT_canvas_principal=500
