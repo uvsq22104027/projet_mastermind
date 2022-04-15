@@ -1,6 +1,7 @@
 import tkinter as tk
 
 racine=tk.Tk()
+racine.title("MasterMind")
 
 ################################ création racine 1 /menu #######################
 
@@ -35,6 +36,14 @@ bouton_reprendre.grid(row=4, column=2)
 
 
 ############################### creation racine 2 ################################
+
+#labels texts
+l_2_bien_placé=tk.Label(frame2, text="bien placé", bg="pink")
+l_2_bien_placé.grid(row=1, column=8)
+l_2_mal_placé=tk.Label(frame2, text="mal placé", bg="pink")
+l_2_mal_placé.grid(row=1, column=9)
+l_2_instructions=tk.Label(frame2, text="Bienvenue sur MasterMind ! \n voici quelques instructions sur la maniere de jouer \n un fois que vous avez placé vos couleurs, appuyez sur 'valider'. \n Si vous voulez changer, appuyez sur 'effacer'", wraplength=0, justify="center")
+l_2_instructions.grid(row=1, column=1, columnspan=7)
 
 #fonctions pour les boutons
 def f_2_replay():
@@ -80,44 +89,45 @@ def f_2_valider():
     pass
 
 ####### grille principale ############
-HEIGHT_canvas_principal=300
-WIDTH_canvas_principal=300
+HEIGHT_canvas_principal=500
+WIDTH_canvas_principal=200
 
-c_2_canvas_principal=tk.Canvas(frame2, height=HEIGHT_canvas_principal, width=WIDTH_canvas_principal, bg="orange")
+c_2_canvas_principal=tk.Canvas(frame2, height=HEIGHT_canvas_principal, width=WIDTH_canvas_principal, bg="grey")
 c_2_canvas_principal.grid(row=2, column=3, rowspan=11, columnspan=4)
 
 #on rajoute la grille
 for i in range (4) :
-    c_2_canvas_principal.create_line(((WIDTH_canvas_principal/4)*i, 0), ((WIDTH_canvas_principal/4)*i, WIDTH_canvas_principal), fill="black")
+    c_2_canvas_principal.create_line(((WIDTH_canvas_principal/4)*i, 0), ((WIDTH_canvas_principal/4)*i, HEIGHT_canvas_principal), fill="black")
     
 for j in range(10):
     c_2_canvas_principal.create_line((0, (HEIGHT_canvas_principal/10)*j), (HEIGHT_canvas_principal, (HEIGHT_canvas_principal/10)*j), fill="black")
 
 
 ########### grille solution #############
-HEIGHT_canvas_solutions=300
-WIDTH_canvas_solutions=300
+HEIGHT_canvas_solutions=500
+WIDTH_canvas_solutions=100
 
-c_2_canvas_solutions=tk.Canvas(frame2, height=HEIGHT_canvas_solutions, width=WIDTH_canvas_solutions, bg="blue")
+c_2_canvas_solutions=tk.Canvas(frame2, height=HEIGHT_canvas_solutions, width=WIDTH_canvas_solutions, bg="pink")
 c_2_canvas_solutions.grid(row=2, column=8, columnspan=2, rowspan=10)
 
 #on rajoute la grille
 for i in range (2) :
-    c_2_canvas_solutions.create_line(((WIDTH_canvas_solutions/2)*i, 0), ((WIDTH_canvas_solutions/2)*i, WIDTH_canvas_solutions), fill="black")
+    c_2_canvas_solutions.create_line(((WIDTH_canvas_solutions/2)*i, 0), ((WIDTH_canvas_solutions/2)*i, HEIGHT_canvas_solutions), fill="black")
     
 for j in range(10):
-    c_2_canvas_solutions.create_line((0, (HEIGHT_canvas_solutions/10)*j), (HEIGHT_canvas_solutions, (HEIGHT_canvas_solutions/10)*j), fill="black")
+    c_2_canvas_solutions.create_line(((0, (HEIGHT_canvas_solutions/10)*j), (HEIGHT_canvas_solutions, (HEIGHT_canvas_solutions/10)*j)), fill="black")
+   
 
-b_2_replay=tk.Button(frame2, text="replay", command=f_2_replay)
+b_2_replay=tk.Button(frame2, text="replay", command=f_2_replay, bg="green")
 b_2_replay.grid(row=2, column=1)
 
-b_2_proposition=tk.Button(frame2, text="proposition", command=f_2_proposition)
+b_2_proposition=tk.Button(frame2, text="proposition", command=f_2_proposition, bg="green")
 b_2_proposition.grid(row=3, column=1)
 
-b_2_sauvergarde=tk.Button(frame2, text="sauvergarde", command=f_2_sauvergarde)
+b_2_sauvergarde=tk.Button(frame2, text="sauvergarde", command=f_2_sauvergarde, bg="green")
 b_2_sauvergarde.grid(row=4, column=1)
 
-b_2_menu=tk.Button(frame2, text="menu", command=f_2_menu)
+b_2_menu=tk.Button(frame2, text="menu", command=f_2_menu, bg="green")
 b_2_menu.grid(row=5, column=1)
 
 b_2_blue=tk.Button(frame2, text="blue", command=f_2_blue)
