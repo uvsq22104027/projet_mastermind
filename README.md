@@ -57,14 +57,14 @@ Fonctions réinitialisation variables et affichage (Replay)
 
 - Gerer un systeme de phase (dès qu'un validé est appuier, permet ou pas des actions)(a voir)
 
-### Variables globales :
+#### Variables globales :
 
 - code a déchiffré (aussi pr sauvegarde)
 - possibilitées de codes : (a voir)
 - proposition faite (pr sauvegarde)
 - type de partie en cour (pr sauvegarde)
 
-### Affichage :
+#### Affichage :
 
 - zone du code :
     - affichage ou non du code
@@ -80,7 +80,7 @@ Fonctions réinitialisation variables et affichage (Replay)
 
 ### Fonctions à faire :
 
-### Fonction global :
+#### Fonction global :
 
 - Réinitialisation de l'affichage
 - Réinitialisation des variables globales
