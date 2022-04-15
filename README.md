@@ -4,8 +4,19 @@ projet_mastermind
 
 ## Repartition des tâches
 
+### Astrid
 
-#### Fonctionalitées principales
+Fonction affichage carré de couleurs
+
+### Settha
+
+Valider Joueur 1
+
+### Elisabeth
+
+Fonctions réinitialisation variables et affichage (Replay)
+
+## Fonctionalitées principales
 
 - Un menu qui affiche les objets Tkinter en fonctio du mode choisis
 - Mastermind :
@@ -24,28 +35,36 @@ projet_mastermind
     - l'ordi propose une solution possible en fonction des indices
 
 
-###### Fait ######
-# Tkinter
+## Fait
+### Tkinter
 - Frame
 - canvas
 - boutons
 - labels
 
-# MENU
+### Menu
 - bouton 1 joueur et multi
 
-###### A Faire ######
+### Fonction
+
+- f_comparer (entre le code et l'essai)
+
+## A Faire
+
+- f_comparer :
+    - Mise en page (nom des var + description)
+    - print() --> return bien/mal placé
 
 - Gerer un systeme de phase (dès qu'un validé est appuier, permet ou pas des actions)(a voir)
 
-## Variables globales :
+### Variables globales :
 
 - code a déchiffré (aussi pr sauvegarde)
 - possibilitées de codes : (a voir)
 - proposition faite (pr sauvegarde)
 - type de partie en cour (pr sauvegarde)
 
-## Affichage :
+### Affichage :
 
 - zone du code :
     - affichage ou non du code
@@ -59,9 +78,9 @@ projet_mastermind
     ...
     - Gagné/perdu
 
-## Fonctions à faire :
+### Fonctions à faire :
 
-# Fonction global :
+### Fonction global :
 
 - Réinitialisation de l'affichage
 - Réinitialisation des variables globales
@@ -109,3 +128,7 @@ projet_mastermind
         - essai fait
         (- pas besoin des bien/mal placé, ça ce recalcul)
     - mise en forme du fichier (où sont les infos)
+
+
+# Notes
+- pouvoir tricher qu4une fois (bonus)
