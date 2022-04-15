@@ -1,3 +1,4 @@
+from cmath import log10
 import tkinter as tk
 
 racine=tk.Tk()
@@ -94,11 +95,13 @@ def f_2_valider():
     pass
 
 def f_comparaison(l1, l2):
+    """Compare la proposition du joueur avec la solution, indique le nombre de billes au bonne endroits
+    et celles aux mauvais endroits"""
     global NbRightPlace
     global NbWrongPlace
     l_aux = [False, False, False, False]
-    for i in range(4):
-        for j in range(4):
+    for i in range(len(l1)):
+        for j in range(len(l2)):
             if l_aux[j]:
                 continue
             elif l1[i] == l2[i]:
@@ -112,7 +115,7 @@ def f_comparaison(l1, l2):
                     NbWrongPlace += 1
                 l_aux[j] = True
                 break
-    print(l_aux)
+    return
 
 ####### grille principale ############
 HEIGHT_canvas_principal=500
