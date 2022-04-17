@@ -124,13 +124,16 @@ WIDTH_canvas_principal=200
 c_2_canvas_principal=tk.Canvas(frame2, height=HEIGHT_canvas_principal, width=WIDTH_canvas_principal, bg="grey")
 c_2_canvas_principal.grid(row=2, column=3, rowspan=11, columnspan=4)
 
-#on rajoute la grille
+#on rajoute la grille 
 for i in range (4) :
     c_2_canvas_principal.create_line(((WIDTH_canvas_principal/4)*i, 0), ((WIDTH_canvas_principal/4)*i, HEIGHT_canvas_principal), fill="black")
     
 for j in range(10):
     c_2_canvas_principal.create_line((0, (HEIGHT_canvas_principal/10)*j), (HEIGHT_canvas_principal, (HEIGHT_canvas_principal/10)*j), fill="black")
 
+for i in range(0, WIDTH_canvas_principal, 50):
+    for j in range(0, HEIGHT_canvas_principal, 50):
+        c_2_canvas_principal.create_oval(i+10, j+10, i+40, j+40, fill="grey")
 
 ########### grille solution #############
 HEIGHT_canvas_solutions=500
