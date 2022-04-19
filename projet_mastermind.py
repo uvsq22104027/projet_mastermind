@@ -50,7 +50,8 @@ l_2_instructions.grid(row=1, column=1, columnspan=7)
 """Variables globales pour les indices donnés au joueur"""
 NbRightPlace = 0
 NbWrongPlace = 0
-
+"""initialisation du compteur"""
+cpt=0
 
 def f_2_replay():
     pass
@@ -65,28 +66,60 @@ def f_2_menu():
     pass
 
 def f_2_blue():
-    pass
+    global couleur, cpt
+    couleur="blue"
+    cpt+=1
+    c_2_canvas_principal.itemconfigure(liste[(cpt-1)], fill=couleur)
+    return couleur
 
 def f_2_red():
-    pass
+    global couleur, cpt
+    couleur="red"
+    cpt+=1
+    c_2_canvas_principal.itemconfigure(liste[(cpt-1)], fill=couleur)
+    return couleur
 
 def f_2_yellow():
-    pass
+    global couleur, cpt
+    couleur="yellow"
+    cpt+=1
+    c_2_canvas_principal.itemconfigure(liste[(cpt-1)], fill=couleur)
+    return couleur
 
 def f_2_brown():
-    pass
+    global couleur, cpt
+    couleur="brown"
+    cpt+=1
+    c_2_canvas_principal.itemconfigure(liste[(cpt-1)], fill=couleur)
+    return couleur
 
 def f_2_pink():
-    pass
+    global couleur, cpt
+    couleur="pink"
+    cpt+=1
+    c_2_canvas_principal.itemconfigure(liste[(cpt-1)], fill=couleur)
+    return couleur
 
 def f_2_green():
-    pass
+    global couleur, cpt
+    couleur="green"
+    cpt+=1
+    c_2_canvas_principal.itemconfigure(liste[(cpt-1)], fill=couleur)
+    return couleur
 
 def f_2_purple():
-    pass
+    global couleur, cpt
+    couleur="purple"
+    cpt+=1
+    c_2_canvas_principal.itemconfigure(liste[(cpt-1)], fill=couleur)
+    return couleur
 
 def f_2_orange():
-    pass
+    global couleur, cpt
+    couleur="orange"
+    cpt+=1
+    c_2_canvas_principal.itemconfigure(liste[(cpt-1)], fill=couleur)
+    return couleur
 
 def f_2_effacer():
     pass
@@ -131,9 +164,12 @@ for i in range (4) :
 for j in range(10):
     c_2_canvas_principal.create_line((0, (HEIGHT_canvas_principal/10)*j), (HEIGHT_canvas_principal, (HEIGHT_canvas_principal/10)*j), fill="black")
 
-for i in range(0, WIDTH_canvas_principal, 50):
-    for j in range(0, HEIGHT_canvas_principal, 50):
-        c_2_canvas_principal.create_oval(i+10, j+10, i+40, j+40, fill="grey")
+#et les ronds
+liste=[]
+for i in range(0, HEIGHT_canvas_principal, 50):
+    for j in range (0, WIDTH_canvas_principal, 50):
+        rond=c_2_canvas_principal.create_oval(j+10, i+10, j+40, i+40, fill="grey")
+        liste.append(rond)
 
 ########### grille solution #############
 HEIGHT_canvas_solutions=500
