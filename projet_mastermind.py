@@ -122,7 +122,10 @@ def f_2_orange():
     return couleur
 
 def f_2_effacer():
-    pass
+    global couleur, cpt
+    couleur="grey"
+    cpt=cpt-1
+    c_2_canvas_principal.itemconfigure(liste[(cpt)], fill=couleur)
 
 def f_2_valider():
     pass
