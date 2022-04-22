@@ -125,7 +125,8 @@ def f_2_orange():
 def f_2_effacer():
     global couleur, cpt
     couleur="grey"
-    cpt=cpt-1
+    if cpt>0:
+        cpt=cpt-1
     c_2_canvas_principal.itemconfigure(liste[(cpt)], fill=couleur)
 
 def f_2_valider():
@@ -239,8 +240,15 @@ b_2_valider=tk.Button(frame2, text="valider", command=f_2_valider)
 b_2_valider.grid(row=15, column=8, columnspan=2)
 
 ############################### creation racine 3 ################################
+def f_3_0():
+    global cpt_sol, chiffre
+    cpt_sol+=1
+    chiffre="0"
+    c_2_canvas_solutions.itemconfigure(liste_sol[(cpt_sol-1)], text=chiffre)
+    return chiffre
+
 def f_3_1():
-    global cpt_sol
+    global cpt_sol, chiffre
     cpt_sol+=1
     chiffre="1"
     c_2_canvas_solutions.itemconfigure(liste_sol[(cpt_sol-1)], text=chiffre)
@@ -248,36 +256,39 @@ def f_3_1():
 
 
 def f_3_2():
-    global cpt_sol
+    global cpt_sol, chiffre
     cpt_sol+=1
     chiffre="2"
     c_2_canvas_solutions.itemconfigure(liste_sol[(cpt_sol-1)], text=chiffre)
     return chiffre
 
 def f_3_3():
-    global cpt_sol
+    global cpt_sol, chiffre
     cpt_sol+=1
     chiffre="3"
     c_2_canvas_solutions.itemconfigure(liste_sol[(cpt_sol-1)], text=chiffre)
     return chiffre
 
 def f_3_4():
-    global cpt_sol
+    global cpt_sol, chiffre
     cpt_sol+=1
     chiffre="4"
     c_2_canvas_solutions.itemconfigure(liste_sol[(cpt_sol-1)], text=chiffre)
     return chiffre
 
 def f_3_effacer():
-    global cpt_sol
-    cpt_sol=cpt_sol-1
+    global cpt_sol, chiffre
     chiffre=""
+    if cpt_sol>0:
+        cpt_sol=cpt_sol-1    
     c_2_canvas_solutions.itemconfigure(liste_sol[(cpt_sol)], text=chiffre)
     return chiffre
 
 def f_3_valider():
     pass
 
+b_3_0=tk.Button(frame3, text="0", command=f_3_0)
+b_3_0.grid(row=0, column=1)
 b_3_1=tk.Button(frame3, text="1", command=f_3_1)
 b_3_1.grid(row=1, column=1)
 b_3_2=tk.Button(frame3, text="2", command=f_3_2)
