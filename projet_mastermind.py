@@ -50,8 +50,9 @@ l_2_instructions.grid(row=1, column=1, columnspan=7)
 """Variables globales pour les indices donnés au joueur"""
 NbRightPlace = 0
 NbWrongPlace = 0
-"""initialisation du compteur"""
+"""initialisation des compteurs"""
 cpt=0
+cpt_sol=0
 
 def f_2_replay():
     pass
@@ -180,6 +181,12 @@ WIDTH_canvas_solutions=100
 
 c_2_canvas_solutions=tk.Canvas(frame2, height=HEIGHT_canvas_solutions, width=WIDTH_canvas_solutions, bg="pink")
 c_2_canvas_solutions.grid(row=2, column=8, columnspan=2, rowspan=10)
+#permet de mettre les reponses dans la grille
+liste_sol=[]
+for i in range(0, HEIGHT_canvas_solutions, 50):
+    for j in range(0, WIDTH_canvas_solutions, 50):
+        sol=c_2_canvas_solutions.create_text(j+25,i+25, text="")
+        liste_sol.append(sol)
 
 #on rajoute la grille
 for i in range (2) :
@@ -233,19 +240,40 @@ b_2_valider.grid(row=15, column=8, columnspan=2)
 
 ############################### creation racine 3 ################################
 def f_3_1():
-    pass
+    global cpt_sol
+    cpt_sol+=1
+    chiffre="1"
+    c_2_canvas_solutions.itemconfigure(liste_sol[(cpt_sol-1)], text=chiffre)
+    return chiffre
+
 
 def f_3_2():
-    pass
+    global cpt_sol
+    cpt_sol+=1
+    chiffre="2"
+    c_2_canvas_solutions.itemconfigure(liste_sol[(cpt_sol-1)], text=chiffre)
+    return chiffre
 
 def f_3_3():
-    pass
+    global cpt_sol
+    cpt_sol+=1
+    chiffre="3"
+    c_2_canvas_solutions.itemconfigure(liste_sol[(cpt_sol-1)], text=chiffre)
+    return chiffre
 
 def f_3_4():
-    pass
+    global cpt_sol
+    cpt_sol+=1
+    chiffre="4"
+    c_2_canvas_solutions.itemconfigure(liste_sol[(cpt_sol-1)], text=chiffre)
+    return chiffre
 
 def f_3_effacer():
-    pass
+    global cpt_sol
+    cpt_sol=cpt_sol-1
+    chiffre=""
+    c_2_canvas_solutions.itemconfigure(liste_sol[(cpt_sol)], text=chiffre)
+    return chiffre
 
 def f_3_valider():
     pass
