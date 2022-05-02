@@ -1,5 +1,6 @@
 from cmath import log10
 import tkinter as tk
+import random
 
 racine=tk.Tk()
 racine.title("MasterMind")
@@ -11,17 +12,46 @@ def bouton_1_joueur():
     for widget in frame1.winfo_children():
         widget.grid_forget()
         frame2.grid()
+        frame4.grid(row=14, column=3, columnspan=7)
 
 frame1=tk.Frame(racine)
 frame1.grid()
 frame2=tk.Frame(racine)
 frame3=tk.Frame(frame2)
+frame5=tk.Frame(frame2)
+
+#########truc aleatoire de l'ordi pour facon 1 joueur ###############
+frame4=tk.Frame(frame2)
+
+HEIGHT_canva_aleatoire=50
+WIDTH_canva_aleatoire=50*4
+
+c_4_canvas_aleatoire=tk.Canvas(frame4, height=HEIGHT_canva_aleatoire, width=WIDTH_canva_aleatoire, bg="grey")
+c_4_canvas_aleatoire.grid(row=0, column=0)
+
+liste_al=[]
+for i in range(0, HEIGHT_canva_aleatoire, 50):
+    for j in range (0, WIDTH_canva_aleatoire, 50):
+        rond=c_4_canvas_aleatoire.create_oval(j+10, i+10, j+40, i+40, fill="grey")
+        liste_al.append(rond)
+
+color=["red","orange","yellow","green","blue","purple","brown", "pink"]
+
+l_al=[]
+for i in range(len(liste_al)):
+    x=random.choice(color)
+    c_4_canvas_aleatoire.itemconfigure(liste_al[(i)], fill=x)
+    l_al.append(x)
+
+
+##########@
 
 def bouton_multi_joueur():
     for widget in frame1.winfo_children():
         widget.grid_forget()
         frame2.grid()
         frame3.grid(row=7, column=1)
+        frame5.grid(row=15, column=8, columnspan=2)
 
 def bouton__reprendre():
     pass
@@ -50,9 +80,11 @@ l_2_instructions.grid(row=1, column=1, columnspan=7)
 """Variables globales pour les indices donnés au joueur"""
 NbRightPlace = 0
 NbWrongPlace = 0
-"""initialisation des compteurs"""
+"""initialisation des compteurs et de la liste qui retient les couleurs"""
 cpt=0
 cpt_sol=0
+cpt_valider=0
+l_couleur=[]
 
 def f_2_replay():
     pass
@@ -67,70 +99,103 @@ def f_2_menu():
     pass
 
 def f_2_blue():
-    global couleur, cpt
+    global couleur, cpt, l_couleur
     couleur="blue"
     cpt+=1
     c_2_canvas_principal.itemconfigure(liste[(cpt-1)], fill=couleur)
-    return couleur
+    l_couleur.append(couleur)
+    if cpt%4==0:
+        return (l_couleur)
+    return couleur, l_couleur
 
 def f_2_red():
-    global couleur, cpt
+    global couleur, cpt, l_couleur
     couleur="red"
     cpt+=1
     c_2_canvas_principal.itemconfigure(liste[(cpt-1)], fill=couleur)
-    return couleur
+    l_couleur.append(couleur)
+    if cpt%4==0:
+        return (l_couleur)
+    return couleur, l_couleur
 
 def f_2_yellow():
-    global couleur, cpt
+    global couleur, cpt, l_couleur
     couleur="yellow"
     cpt+=1
     c_2_canvas_principal.itemconfigure(liste[(cpt-1)], fill=couleur)
-    return couleur
+    l_couleur.append(couleur)
+    if cpt%4==0:
+        return (l_couleur)
+    return couleur, l_couleur
 
 def f_2_brown():
-    global couleur, cpt
+    global couleur, cpt, l_couleur
     couleur="brown"
     cpt+=1
     c_2_canvas_principal.itemconfigure(liste[(cpt-1)], fill=couleur)
-    return couleur
+    l_couleur.append(couleur)
+    if cpt%4==0:
+        return (l_couleur)
+    return couleur, l_couleur
 
 def f_2_pink():
-    global couleur, cpt
+    global couleur, cpt, l_couleur
     couleur="pink"
     cpt+=1
     c_2_canvas_principal.itemconfigure(liste[(cpt-1)], fill=couleur)
-    return couleur
+    l_couleur.append(couleur)
+    if cpt%4==0:
+        return (l_couleur)
+    return couleur, l_couleur
 
 def f_2_green():
-    global couleur, cpt
+    global couleur, cpt, l_couleur
     couleur="green"
     cpt+=1
     c_2_canvas_principal.itemconfigure(liste[(cpt-1)], fill=couleur)
-    return couleur
+    l_couleur.append(couleur)
+    if cpt%4==0:
+        return (l_couleur)
+    return couleur, l_couleur
 
 def f_2_purple():
-    global couleur, cpt
+    global couleur, cpt, l_couleur
     couleur="purple"
     cpt+=1
     c_2_canvas_principal.itemconfigure(liste[(cpt-1)], fill=couleur)
-    return couleur
+    l_couleur.append(couleur)
+    if cpt%4==0:
+        return (l_couleur)
+    return couleur, l_couleur
 
 def f_2_orange():
-    global couleur, cpt
+    global couleur, cpt, l_couleur
     couleur="orange"
     cpt+=1
     c_2_canvas_principal.itemconfigure(liste[(cpt-1)], fill=couleur)
+    l_couleur.append(couleur)
+    if cpt%4==0:
+        return (l_couleur)
     return couleur
 
 def f_2_effacer():
-    global couleur, cpt
+    global couleur, cpt, l_couleur
+    l_couleur.remove(l_couleur[-1])
     couleur="grey"
     if cpt>0:
         cpt=cpt-1
     c_2_canvas_principal.itemconfigure(liste[(cpt)], fill=couleur)
+    
 
-def f_2_valider():
-    pass
+def f_4_valider():
+    global l_couleur, NbRightPlace, NbWrongPlace, cpt_valider
+    f_comparaison(l_al, l_couleur)
+    l_couleur=[]
+    c_2_canvas_solutions.itemconfigure(liste_sol[(cpt_valider*2)], text=NbRightPlace)
+    c_2_canvas_solutions.itemconfigure(liste_sol[(cpt_valider*2)+1], text=NbWrongPlace)
+    cpt_valider+=1
+    NbRightPlace=0
+    NbWrongPlace=0
 
 def f_comparaison(l1, l2):
     """Compare la proposition du joueur avec la solution, indique le nombre de billes au bonne endroits
@@ -153,7 +218,10 @@ def f_comparaison(l1, l2):
                     NbWrongPlace += 1
                 l_aux[j] = True
                 break
-    return
+    return NbRightPlace, NbWrongPlace
+
+def f_2_valider():
+    pass
 
 ####### grille principale ############
 HEIGHT_canvas_principal=500
@@ -210,16 +278,16 @@ b_2_menu=tk.Button(frame2, text="menu", command=f_2_menu, bg="green")
 b_2_menu.grid(row=5, column=1)
 
 b_2_blue=tk.Button(frame2, text="blue", command=f_2_blue)
-b_2_blue.grid(row=14, column=3)
+b_2_blue.grid(row=16, column=3)
 
 b_2_red=tk.Button(frame2, text="red", command=f_2_red)
-b_2_red.grid(row=14, column=4)
+b_2_red.grid(row=16, column=4)
 
 b_2_yellow=tk.Button(frame2, text="yellow", command=f_2_yellow)
-b_2_yellow.grid(row=14, column=5)
+b_2_yellow.grid(row=16, column=5)
 
 b_2_brown=tk.Button(frame2, text="brown", command=f_2_brown)
-b_2_brown.grid(row=14, column=6)
+b_2_brown.grid(row=16, column=6)
 
 b_2_pink=tk.Button(frame2, text="pink", command=f_2_pink)
 b_2_pink.grid(row=15, column=3)
@@ -234,10 +302,13 @@ b_2_orange=tk.Button(frame2, text="orange", command=f_2_orange)
 b_2_orange.grid(row=15, column=6)
 
 b_2_effacer=tk.Button(frame2, text="effacer", command=f_2_effacer)
-b_2_effacer.grid(row=14, column=8, columnspan=2)
+b_2_effacer.grid(row=16, column=8, columnspan=2)
 
-b_2_valider=tk.Button(frame2, text="valider", command=f_2_valider)
-b_2_valider.grid(row=15, column=8, columnspan=2)
+b_2_valider=tk.Button(frame5, text="valider", command=f_2_valider)
+b_2_valider.grid(row=0, column=0)
+
+b_4_valider=tk.Button(frame4, text="valider", command=f_4_valider)
+b_4_valider.grid(row=0, column=5)
 
 ############################### creation racine 3 ################################
 def f_3_0():
