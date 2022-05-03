@@ -22,6 +22,8 @@ frame4=tk.Frame(frame2)   #combinaison lancée aléatoirement par l'ordi pour mo
 frame5=tk.Frame(frame2)   #bouton valider pour mode multijoueur
 frame6=tk.Frame(frame2)   #bouton valider pour mode 1 joueur
 
+frame4_existe = False
+
 #########truc aleatoire de l'ordi pour facon 1 joueur ###############
 HEIGHT_canva_aleatoire=50
 WIDTH_canva_aleatoire=50*4
@@ -29,7 +31,7 @@ WIDTH_canva_aleatoire=50*4
 c_4_canvas_aleatoire=tk.Canvas(frame4, height=HEIGHT_canva_aleatoire, width=WIDTH_canva_aleatoire, bg="grey")
 c_4_canvas_aleatoire.grid(row=0, column=0)
 
-liste_al=[]
+liste_al=[] #
 for i in range(0, HEIGHT_canva_aleatoire, 50):
     for j in range (0, WIDTH_canva_aleatoire, 50):
         rond=c_4_canvas_aleatoire.create_oval(j+10, i+10, j+40, i+40, fill="grey")
@@ -37,12 +39,15 @@ for i in range(0, HEIGHT_canva_aleatoire, 50):
 
 color=["red","orange","yellow","green","blue","purple","brown", "pink"]
 
-l_al=[]
+l_al=[] #solution
 for i in range(len(liste_al)):
     x=random.choice(color)
     c_4_canvas_aleatoire.itemconfigure(liste_al[(i)], fill=x)
     l_al.append(x)
 
+###### Pour la proposition de code, a adapter
+
+vg_l_bien_mal_place = [[] for i in range(10)]       # valeurs des b/m placé
 
 ##########@
 
@@ -84,10 +89,47 @@ NbWrongPlace = 0
 cpt=0
 cpt_sol=0
 cpt_valider=0
-l_couleur=[]
+l_couleur=[] #couleurs en cours
 
 def f_2_replay():
-    pass
+    global l_al, liste_al, vg_l_bien_mal_place, cpt, cpt_valider, frame4_existe
+    "réinitialise les variables et effaces les carrées "
+    # 2eme partie :
+    #   canvas solution ne s'affiche pas
+    #   code change pas
+
+    # ovals --> gris
+    for i in range(len(liste)):
+        c_2_canvas_principal.itemconfigure(liste[i], fill="grey")
+    cpt = 0
+
+    # chiffres bien/mal placé
+
+    for i in range(len(liste_sol)):
+        c_2_canvas_solutions.itemconfigure(liste_sol[i], text="")
+    cpt_valider = 0
+    
+    # Code
+
+    l_al = []
+    for i in range(len(liste_al)):
+        x=random.choice(color)
+        c_4_canvas_aleatoire.itemconfigure(liste_al[(i)], fill=x)
+        l_al.append(x)
+
+    # Frame 4 solution final
+    if frame4_existe :
+        for widget in frame4.winfo_children():
+            widget.grid_forget()
+    frame4_existe = False
+
+    # pr proposition de solutions
+    for i in range(len(vg_l_bien_mal_place)):
+        for j in range(len(vg_l_bien_mal_place[i])):
+            if vg_l_bien_mal_place[j] != []:
+                c_2_canvas_solutions.delete(vg_l_bien_mal_place[i][j])
+
+    vg_l_bien_mal_place = [[] for i in range(10)]
 
 def f_2_proposition():
     pass
@@ -188,18 +230,20 @@ def f_2_effacer():
     
 
 def f_4_valider():
-    global l_couleur, NbRightPlace, NbWrongPlace, cpt_valider
+    global l_couleur, NbRightPlace, NbWrongPlace, cpt_valider, frame4_existe
     f_comparaison(l_al, l_couleur)
     l_couleur=[]
     c_2_canvas_solutions.itemconfigure(liste_sol[(cpt_valider*2)], text=NbRightPlace)
     c_2_canvas_solutions.itemconfigure(liste_sol[(cpt_valider*2)+1], text=NbWrongPlace)
     cpt_valider+=1
     if NbRightPlace==4:
-        l_2_instructions.config(text="BRAVO ! \n Vous avez gagné ! Vous voulez refaire une partie ? appuyez sur replay" )
+        l_2_instructions.config(text="BRAVO ! \n Vous avez gagné ! Vous voulez refaire une partie ? Appuyez sur replay" )
         frame4.grid(row=14, column=3, columnspan=4)
+        frame4_existe = True
     if cpt_valider>9 and NbRightPlace!=4:
         l_2_instructions.config(text= "Perdue... Réessayez, la prochaine sera la bonne !" )
         frame4.grid(row=14, column=3, columnspan=4)
+        frame4_existe = True
     NbRightPlace=0
     NbWrongPlace=0
 
@@ -257,7 +301,7 @@ WIDTH_canvas_solutions=100
 c_2_canvas_solutions=tk.Canvas(frame2, height=HEIGHT_canvas_solutions, width=WIDTH_canvas_solutions, bg="pink")
 c_2_canvas_solutions.grid(row=2, column=8, columnspan=2, rowspan=10)
 #permet de mettre les reponses dans la grille
-liste_sol=[]
+liste_sol=[] # id des texte canvas rose
 for i in range(0, HEIGHT_canvas_solutions, 50):
     for j in range(0, WIDTH_canvas_solutions, 50):
         sol=c_2_canvas_solutions.create_text(j+25,i+25, text="")
@@ -379,5 +423,6 @@ b_3_effacer=tk.Button(frame3, text="effacer", command=f_3_effacer)
 b_3_effacer.grid(row=6, column=1)
 b_3_valider=tk.Button(frame3, text="valider", command=f_3_valider)
 b_3_valider.grid(row=7, column=1)
+
 
 racine.mainloop()
