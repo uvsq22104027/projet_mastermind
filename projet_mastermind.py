@@ -12,17 +12,17 @@ def bouton_1_joueur():
     for widget in frame1.winfo_children():
         widget.grid_forget()
         frame2.grid()
-        frame4.grid(row=14, column=3, columnspan=7)
+        frame6.grid(row=14, column=8, columnspan=2)
 
-frame1=tk.Frame(racine)
+frame1=tk.Frame(racine)   #"menu"
 frame1.grid()
-frame2=tk.Frame(racine)
-frame3=tk.Frame(frame2)
-frame5=tk.Frame(frame2)
+frame2=tk.Frame(racine)   #base
+frame3=tk.Frame(frame2)   #ajout du second joueur pour mode multijoueur
+frame4=tk.Frame(frame2)   #combinaison lancée aléatoirement par l'ordi pour mode 1 joueur
+frame5=tk.Frame(frame2)   #bouton valider pour mode multijoueur
+frame6=tk.Frame(frame2)   #bouton valider pour mode 1 joueur
 
 #########truc aleatoire de l'ordi pour facon 1 joueur ###############
-frame4=tk.Frame(frame2)
-
 HEIGHT_canva_aleatoire=50
 WIDTH_canva_aleatoire=50*4
 
@@ -194,6 +194,12 @@ def f_4_valider():
     c_2_canvas_solutions.itemconfigure(liste_sol[(cpt_valider*2)], text=NbRightPlace)
     c_2_canvas_solutions.itemconfigure(liste_sol[(cpt_valider*2)+1], text=NbWrongPlace)
     cpt_valider+=1
+    if NbRightPlace==4:
+        l_2_instructions.config(text="BRAVO ! \n Vous avez gagné ! Vous voulez refaire une partie ? appuyez sur replay" )
+        frame4.grid(row=14, column=3, columnspan=4)
+    if cpt_valider>9 and NbRightPlace!=4:
+        l_2_instructions.config(text= "Perdue... Réessayez, la prochaine sera la bonne !" )
+        frame4.grid(row=14, column=3, columnspan=4)
     NbRightPlace=0
     NbWrongPlace=0
 
@@ -307,7 +313,7 @@ b_2_effacer.grid(row=16, column=8, columnspan=2)
 b_2_valider=tk.Button(frame5, text="valider", command=f_2_valider)
 b_2_valider.grid(row=0, column=0)
 
-b_4_valider=tk.Button(frame4, text="valider", command=f_4_valider)
+b_4_valider=tk.Button(frame6, text="valider", command=f_4_valider)
 b_4_valider.grid(row=0, column=5)
 
 ############################### creation racine 3 ################################
