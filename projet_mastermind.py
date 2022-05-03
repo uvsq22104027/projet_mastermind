@@ -119,8 +119,7 @@ def f_2_replay():
 
     # Frame 4 solution final
     if frame4_existe :
-        for widget in frame4.winfo_children():
-            widget.grid_forget()
+        frame4.grid_forget()
     frame4_existe = False
 
     # pr proposition de solutions
