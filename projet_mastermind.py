@@ -140,7 +140,7 @@ def f_g_reinitialisation():
 def f_2_replay():
     global l_al
     f_g_reinitialisation()
-
+    l_2_instructions.config(text="Bienvenue sur MasterMind ! \n voici quelques instructions sur la maniere de jouer \n un fois que vous avez placé vos couleurs, appuyez sur 'valider'. \n Si vous voulez changer, appuyez sur 'effacer'")
     if vg_mode_jeux == 1:
         # choisis un code
         for i in range(len(liste_al)):
