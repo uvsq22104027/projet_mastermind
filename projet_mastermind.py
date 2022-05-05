@@ -43,7 +43,7 @@ def f_initialisation_rond_solution():
         for j in range (0, WIDTH_canva_aleatoire, 50):
             rond=c_4_canvas_aleatoire.create_oval(j+10, i+10, j+40, i+40, fill="grey")
             liste_al.append(rond)
-
+f_initialisation_rond_solution()
 
 color=["red","orange","yellow","green","blue","purple","brown", "pink"]
 
@@ -51,10 +51,12 @@ l_al=[] #solution
 
 def f_solution_alleatoire():
     global l_al
+    print(l_al)
     for i in range(len(liste_al)):
         x=random.choice(color)
         c_4_canvas_aleatoire.itemconfigure(liste_al[(i)], fill=x)
         l_al.append(x)
+    print(l_al)
 
 ###### Pour la proposition de code, a adapter
 
@@ -130,16 +132,12 @@ def f_g_reinitialisation():
     l_couleur=[]
 
     # Frame 4 solution final
-    f_initialisation_rond_solution()
     if vg_mode_jeux == 1:
         if vg_frame4_existe :
             frame4.grid_forget()
             vg_frame4_existe = False
         #proposition solution
-        for i in range(len(vg_l_bien_mal_place)):
-            for j in range(len(vg_l_bien_mal_place[i])):
-                if vg_l_bien_mal_place[j] != []:
-                    c_2_canvas_solutions.delete(vg_l_bien_mal_place[i][j])
+        f_solution_alleatoire()
 
 
     vg_l_bien_mal_place = [[] for i in range(10)]
@@ -148,9 +146,6 @@ def f_2_replay():
     global l_al
     f_g_reinitialisation()
     l_2_instructions.config(text="Bienvenue sur MasterMind ! \n voici quelques instructions sur la maniere de jouer \n un fois que vous avez placé vos couleurs, appuyez sur 'valider'. \n Si vous voulez changer, appuyez sur 'effacer'")
-    if vg_mode_jeux == 1:
-        # choisis un code
-        f_solution_alleatoire()
 
 def f_2_proposition():
     pass
@@ -365,6 +360,7 @@ def f_2_effacer():
 def f_5_valider():
     global l_couleur, NbRightPlace, NbWrongPlace, cpt_valider, vg_frame4_existe, l_couleur, vg_phase
     if vg_mode_jeux == 1:
+        print(l_al, l_couleur)
         f_comparaison(l_al, l_couleur)
         l_couleur=[]
         c_2_canvas_solutions.itemconfigure(liste_sol[(cpt_valider*2)], text=NbRightPlace)
