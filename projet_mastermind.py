@@ -21,12 +21,13 @@ frame1.grid()
 frame2=tk.Frame(racine)   #base
 frame3=tk.Frame(frame2)   #ajout du second joueur pour mode multijoueur
 frame4=tk.Frame(frame2)   #combinaison lancée aléatoirement par l'ordi pour mode 1 joueur
-frame5=tk.Frame(frame2)   #bouton valider pour mode multijoueur
+frame5=tk.Frame(frame2)   #bouton valider pour les 2 modes
 
 #### Variables global
 vg_frame4_existe = False
 vg_mode_jeux = 0          # 0 = menu, 1 = 1 joueur, 2 = multijoueur
 vg_phase = 0     # 0:auccun joueur joue, 1 : joueur 1, 2 : joueur 2 (qui rentre le code)
+cpt_code = 0    # position liste du code à remplire
 
 #########truc aleatoire de l'ordi pour facon 1 joueur ###############
 HEIGHT_canva_aleatoire=50
@@ -36,18 +37,24 @@ c_4_canvas_aleatoire=tk.Canvas(frame4, height=HEIGHT_canva_aleatoire, width=WIDT
 c_4_canvas_aleatoire.grid(row=0, column=0)
 
 liste_al=[] #
-for i in range(0, HEIGHT_canva_aleatoire, 50):
-    for j in range (0, WIDTH_canva_aleatoire, 50):
-        rond=c_4_canvas_aleatoire.create_oval(j+10, i+10, j+40, i+40, fill="grey")
-        liste_al.append(rond)
+def f_initialisation_rond_solution():
+    global liste_al
+    for i in range(0, HEIGHT_canva_aleatoire, 50):
+        for j in range (0, WIDTH_canva_aleatoire, 50):
+            rond=c_4_canvas_aleatoire.create_oval(j+10, i+10, j+40, i+40, fill="grey")
+            liste_al.append(rond)
+
 
 color=["red","orange","yellow","green","blue","purple","brown", "pink"]
 
 l_al=[] #solution
-for i in range(len(liste_al)):
-    x=random.choice(color)
-    c_4_canvas_aleatoire.itemconfigure(liste_al[(i)], fill=x)
-    l_al.append(x)
+
+def f_solution_alleatoire():
+    global l_al
+    for i in range(len(liste_al)):
+        x=random.choice(color)
+        c_4_canvas_aleatoire.itemconfigure(liste_al[(i)], fill=x)
+        l_al.append(x)
 
 ###### Pour la proposition de code, a adapter
 
@@ -56,13 +63,15 @@ vg_l_bien_mal_place = [[] for i in range(10)]       # valeurs des b/m placé
 ##########@
 
 def bouton_multi_joueur():
-    global vg_mode_jeux, vg_phase
+    global vg_mode_jeux, vg_phase, vg_frame4_existe
     frame1.grid_forget()
     frame2.grid()
     frame3.grid(row=7, column=1)
     frame5.grid(row=15, column=8, columnspan=2)
+    frame4.grid(row=14, column=3, columnspan=4)
+    vg_frame4_existe = True
     vg_mode_jeux = 2
-    vg_phase = 1
+    vg_phase = 2
     f_2_replay()
 
 def bouton__reprendre():
@@ -94,16 +103,13 @@ NbRightPlace = 0
 NbWrongPlace = 0
 """initialisation des compteurs et de la liste qui retient les couleurs"""
 cpt=0
-cpt_sol=0
+cpt_sol=0      #pour remplissage des bien/mal placé
 cpt_valider=0
 l_couleur=[] #couleurs en cours
 
 def f_g_reinitialisation():
-    global l_al, liste_al, vg_l_bien_mal_place, cpt, cpt_valider, vg_frame4_existe, l_couleur
     "réinitialise les variables et effaces les carrées "
-    # 2eme partie :
-    #   canvas solution ne s'affiche pas
-    #   code change pas
+    global l_al, liste_al, vg_l_bien_mal_place, cpt, cpt_valider, vg_frame4_existe, l_couleur
 
     # ovals --> gris
     for i in range(len(liste)):
@@ -111,7 +117,6 @@ def f_g_reinitialisation():
     cpt = 0
 
     # chiffres bien/mal placé
-
     for i in range(len(liste_sol)):
         c_2_canvas_solutions.itemconfigure(liste_sol[i], text="")
     cpt_valider = 0
@@ -125,15 +130,17 @@ def f_g_reinitialisation():
     l_couleur=[]
 
     # Frame 4 solution final
-    if vg_frame4_existe :
-        frame4.grid_forget()
-    vg_frame4_existe = False
+    f_initialisation_rond_solution()
+    if vg_mode_jeux == 1:
+        if vg_frame4_existe :
+            frame4.grid_forget()
+            vg_frame4_existe = False
+        #proposition solution
+        for i in range(len(vg_l_bien_mal_place)):
+            for j in range(len(vg_l_bien_mal_place[i])):
+                if vg_l_bien_mal_place[j] != []:
+                    c_2_canvas_solutions.delete(vg_l_bien_mal_place[i][j])
 
-    # pr proposition de solutions
-    for i in range(len(vg_l_bien_mal_place)):
-        for j in range(len(vg_l_bien_mal_place[i])):
-            if vg_l_bien_mal_place[j] != []:
-                c_2_canvas_solutions.delete(vg_l_bien_mal_place[i][j])
 
     vg_l_bien_mal_place = [[] for i in range(10)]
 
@@ -143,10 +150,7 @@ def f_2_replay():
     l_2_instructions.config(text="Bienvenue sur MasterMind ! \n voici quelques instructions sur la maniere de jouer \n un fois que vous avez placé vos couleurs, appuyez sur 'valider'. \n Si vous voulez changer, appuyez sur 'effacer'")
     if vg_mode_jeux == 1:
         # choisis un code
-        for i in range(len(liste_al)):
-            x=random.choice(color)
-            c_4_canvas_aleatoire.itemconfigure(liste_al[(i)], fill=x)
-            l_al.append(x)
+        f_solution_alleatoire()
 
 def f_2_proposition():
     pass
@@ -166,9 +170,20 @@ def f_2_menu():
     f_g_reinitialisation()
 
 def f_2_blue():
-    global couleur, cpt, l_couleur
-    if vg_phase == 1:
-        couleur="blue"
+    global couleur, cpt, l_couleur, cpt_code
+    couleur="blue"
+    if vg_phase == 1 and cpt<4:
+        cpt+=1
+        c_2_canvas_principal.itemconfigure(liste[(cpt-1)], fill=couleur)
+        l_couleur.append(couleur)
+        if cpt%4==0:
+            return (l_couleur)
+        return couleur, l_couleur
+    if vg_phase == 2 and vg_frame4_existe and cpt_code<4:
+        cpt_code += 1
+        c_4_canvas_aleatoire.itemconfigure(liste_al[cpt_code-1], fill=couleur)
+        l_al.append(couleur)
+    if vg_phase == 1 and (not vg_frame4_existe) and cpt//4 != 0 :
         cpt+=1
         c_2_canvas_principal.itemconfigure(liste[(cpt-1)], fill=couleur)
         l_couleur.append(couleur)
@@ -177,9 +192,20 @@ def f_2_blue():
         return couleur, l_couleur
 
 def f_2_red():
-    global couleur, cpt, l_couleur, l_couleur
-    if vg_phase == 1:
-        couleur="red"
+    global couleur, cpt, l_couleur, cpt_code
+    couleur="red"
+    if vg_phase == 1 and cpt<4:
+        cpt+=1
+        c_2_canvas_principal.itemconfigure(liste[(cpt-1)], fill=couleur)
+        l_couleur.append(couleur)
+        if cpt%4==0:
+            return (l_couleur)
+        return couleur, l_couleur
+    if vg_phase == 2 and vg_frame4_existe and cpt_code<4:
+        cpt_code += 1
+        c_4_canvas_aleatoire.itemconfigure(liste_al[cpt_code-1], fill=couleur)
+        l_al.append(couleur)
+    if vg_phase == 1 and (not vg_frame4_existe) and cpt//4 != 0 :
         cpt+=1
         c_2_canvas_principal.itemconfigure(liste[(cpt-1)], fill=couleur)
         l_couleur.append(couleur)
@@ -188,9 +214,20 @@ def f_2_red():
         return couleur, l_couleur
 
 def f_2_yellow():
-    global couleur, cpt, l_couleur, l_couleur
-    if vg_phase == 1:
-        couleur="yellow"
+    global couleur, cpt, l_couleur, cpt_code
+    couleur="yellow"
+    if vg_phase == 1 and cpt<4:
+        cpt+=1
+        c_2_canvas_principal.itemconfigure(liste[(cpt-1)], fill=couleur)
+        l_couleur.append(couleur)
+        if cpt%4==0:
+            return (l_couleur)
+        return couleur, l_couleur
+    if vg_phase == 2 and vg_frame4_existe and cpt_code<4:
+        cpt_code += 1
+        c_4_canvas_aleatoire.itemconfigure(liste_al[cpt_code-1], fill=couleur)
+        l_al.append(couleur)
+    if vg_phase == 1 and (not vg_frame4_existe) and cpt//4 != 0 :
         cpt+=1
         c_2_canvas_principal.itemconfigure(liste[(cpt-1)], fill=couleur)
         l_couleur.append(couleur)
@@ -199,9 +236,20 @@ def f_2_yellow():
         return couleur, l_couleur
 
 def f_2_brown():
-    global couleur, cpt, l_couleur, l_couleur
-    if vg_phase == 1:
-        couleur="brown"
+    global couleur, cpt, l_couleur, cpt_code
+    couleur="brown"
+    if vg_phase == 1 and cpt<4:
+        cpt+=1
+        c_2_canvas_principal.itemconfigure(liste[(cpt-1)], fill=couleur)
+        l_couleur.append(couleur)
+        if cpt%4==0:
+            return (l_couleur)
+        return couleur, l_couleur
+    if vg_phase == 2 and vg_frame4_existe and cpt_code<4:
+        cpt_code += 1
+        c_4_canvas_aleatoire.itemconfigure(liste_al[cpt_code-1], fill=couleur)
+        l_al.append(couleur)
+    if vg_phase == 1 and (not vg_frame4_existe) and cpt//4 != 0 :
         cpt+=1
         c_2_canvas_principal.itemconfigure(liste[(cpt-1)], fill=couleur)
         l_couleur.append(couleur)
@@ -210,9 +258,20 @@ def f_2_brown():
         return couleur, l_couleur
 
 def f_2_pink():
-    global couleur, cpt, l_couleur, l_couleur
-    if vg_phase == 1:
-        couleur="pink"
+    global couleur, cpt, l_couleur, cpt_code
+    couleur="pink"
+    if vg_phase == 1 and cpt<4:
+        cpt+=1
+        c_2_canvas_principal.itemconfigure(liste[(cpt-1)], fill=couleur)
+        l_couleur.append(couleur)
+        if cpt%4==0:
+            return (l_couleur)
+        return couleur, l_couleur
+    if vg_phase == 2 and vg_frame4_existe and cpt_code<4:
+        cpt_code += 1
+        c_4_canvas_aleatoire.itemconfigure(liste_al[cpt_code-1], fill=couleur)
+        l_al.append(couleur)
+    if vg_phase == 1 and (not vg_frame4_existe) and cpt//4 != 0 :
         cpt+=1
         c_2_canvas_principal.itemconfigure(liste[(cpt-1)], fill=couleur)
         l_couleur.append(couleur)
@@ -221,9 +280,20 @@ def f_2_pink():
         return couleur, l_couleur
 
 def f_2_green():
-    global couleur, cpt, l_couleur, l_couleur
-    if vg_phase == 1:
-        couleur="green"
+    global couleur, cpt, l_couleur, cpt_code
+    couleur="green"
+    if vg_phase == 1 and cpt<4:
+        cpt+=1
+        c_2_canvas_principal.itemconfigure(liste[(cpt-1)], fill=couleur)
+        l_couleur.append(couleur)
+        if cpt%4==0:
+            return (l_couleur)
+        return couleur, l_couleur
+    if vg_phase == 2 and vg_frame4_existe and cpt_code<4:
+        cpt_code += 1
+        c_4_canvas_aleatoire.itemconfigure(liste_al[cpt_code-1], fill=couleur)
+        l_al.append(couleur)
+    if vg_phase == 1 and (not vg_frame4_existe) and cpt//4 != 0 :
         cpt+=1
         c_2_canvas_principal.itemconfigure(liste[(cpt-1)], fill=couleur)
         l_couleur.append(couleur)
@@ -232,9 +302,20 @@ def f_2_green():
         return couleur, l_couleur
 
 def f_2_purple():
-    global couleur, cpt, l_couleur, l_couleur
-    if vg_phase == 1:
-        couleur="purple"
+    global couleur, cpt, l_couleur, cpt_code
+    couleur="purple"
+    if vg_phase == 1 and cpt<4:
+        cpt+=1
+        c_2_canvas_principal.itemconfigure(liste[(cpt-1)], fill=couleur)
+        l_couleur.append(couleur)
+        if cpt%4==0:
+            return (l_couleur)
+        return couleur, l_couleur
+    if vg_phase == 2 and vg_frame4_existe and cpt_code<4:
+        cpt_code += 1
+        c_4_canvas_aleatoire.itemconfigure(liste_al[cpt_code-1], fill=couleur)
+        l_al.append(couleur)
+    if vg_phase == 1 and (not vg_frame4_existe) and cpt//4 != 0 :
         cpt+=1
         c_2_canvas_principal.itemconfigure(liste[(cpt-1)], fill=couleur)
         l_couleur.append(couleur)
@@ -243,24 +324,42 @@ def f_2_purple():
         return couleur, l_couleur
 
 def f_2_orange():
-    global couleur, cpt, l_couleur, l_couleur
-    if vg_phase == 1:
-        couleur="orange"
+    global couleur, cpt, l_couleur, cpt_code
+    couleur="orange"
+    if vg_phase == 1 and cpt<4:
         cpt+=1
         c_2_canvas_principal.itemconfigure(liste[(cpt-1)], fill=couleur)
         l_couleur.append(couleur)
         if cpt%4==0:
             return (l_couleur)
         return couleur
+    if vg_phase == 2 and vg_frame4_existe and cpt_code<4:
+        cpt_code += 1
+        c_4_canvas_aleatoire.itemconfigure(liste_al[cpt_code-1], fill=couleur)
+        l_al.append(couleur)
+    if vg_phase == 1 and (not vg_frame4_existe) and cpt//4 != 0 :
+        cpt+=1
+        c_2_canvas_principal.itemconfigure(liste[(cpt-1)], fill=couleur)
+        l_couleur.append(couleur)
+        if cpt%4==0:
+            return (l_couleur)
+        return couleur, l_couleur
 
 def f_2_effacer():
-    global couleur, cpt, l_couleur, l_couleur
-    if vg_phase == 1:
-        l_couleur.remove(l_couleur[-1])
-        couleur="grey"
+    global couleur, cpt, l_couleur, cpt_code
+    couleur="grey"
+    if vg_phase == 1 and cpt>=0:
+        if len(l_couleur)>0:
+            l_couleur.remove(l_couleur[-1])
         if cpt>0:
             cpt=cpt-1
         c_2_canvas_principal.itemconfigure(liste[(cpt)], fill=couleur)
+    if vg_phase == 2 and vg_frame4_existe and cpt_code>=0:
+        if cpt_code>0:
+            cpt_code=cpt_code-1
+        c_4_canvas_aleatoire.itemconfigure(liste_al[cpt_code], fill=couleur)
+        if len(l_al)>0:
+            l_al.remove(l_al[-1])
     
 
 def f_5_valider():
@@ -271,7 +370,7 @@ def f_5_valider():
         c_2_canvas_solutions.itemconfigure(liste_sol[(cpt_valider*2)], text=NbRightPlace)
         c_2_canvas_solutions.itemconfigure(liste_sol[(cpt_valider*2)+1], text=NbWrongPlace)
         cpt_valider+=1
-        if NbRightPlace==4:
+        if NbRightPlace==4 :
             l_2_instructions.config(text="BRAVO ! \n Vous avez gagné ! Vous voulez refaire une partie ? Appuyez sur replay" )
             frame4.grid(row=14, column=3, columnspan=4)
             vg_frame4_existe = True
@@ -281,8 +380,13 @@ def f_5_valider():
             vg_frame4_existe = True
         NbRightPlace=0
         NbWrongPlace=0
-    if vg_mode_jeux == 2:
-        vg_phase = 2
+    if vg_mode_jeux == 2 :
+        if vg_phase == 2 and cpt_code == 4 and vg_frame4_existe :
+            frame4.grid_forget()
+            vg_phase = 1
+        elif vg_phase == 1 :
+            frame4.grid(row=14, column=3, columnspan=4)
+            vg_phase = 2
 
 
 def f_comparaison(l1, l2):
@@ -350,6 +454,8 @@ for i in range (2) :
 for j in range(10):
     c_2_canvas_solutions.create_line(((0, (HEIGHT_canvas_solutions/10)*j), (HEIGHT_canvas_solutions, (HEIGHT_canvas_solutions/10)*j)), fill="black")
    
+# variable global joueur 2
+cpt_b_m_place = 0
 
 b_2_replay=tk.Button(frame2, text="replay", command=f_2_replay, bg="green")
 b_2_replay.grid(row=2, column=1)
@@ -394,6 +500,7 @@ b_5_valider=tk.Button(frame5, text="valider", command=f_5_valider)
 b_5_valider.grid(row=0, column=0)
 
 ############################### creation racine 3 ################################
+
 def f_3_0():
     global cpt_sol, chiffre
     if vg_phase == 2 :
@@ -445,20 +552,21 @@ def f_3_effacer():
         return chiffre
 
 def f_3_valider():
-    global vg_phase
-    if vg_phase == 2 :
+    global vg_phase, cpt_sol, vg_frame4_existe
+    if vg_phase == 2 and cpt_sol//2 != 0:
+        frame4.grid_forget()
         vg_phase = 1
-        pass
+        vg_frame4_existe = False
 
-b_3_0=tk.Button(frame3, text="0", command=f_3_0)
+b_3_0=tk.Button(frame3, text="0", command = lambda : f_3_0())
 b_3_0.grid(row=0, column=1)
-b_3_1=tk.Button(frame3, text="1", command=f_3_1)
+b_3_1=tk.Button(frame3, text="1", command = lambda : f_3_1())
 b_3_1.grid(row=1, column=1)
-b_3_2=tk.Button(frame3, text="2", command=f_3_2)
+b_3_2=tk.Button(frame3, text="2", command = lambda : f_3_2())
 b_3_2.grid(row=2, column=1)
-b_3_3=tk.Button(frame3, text="3", command=f_3_3)
+b_3_3=tk.Button(frame3, text="3", command = lambda : f_3_3())
 b_3_3.grid(row=3, column=1)
-b_3_4=tk.Button(frame3, text="4", command=f_3_4)
+b_3_4=tk.Button(frame3, text="4", command = lambda : f_3_4())
 b_3_4.grid(row=4, column=1)
 
 b_3_effacer=tk.Button(frame3, text="effacer", command=f_3_effacer)
