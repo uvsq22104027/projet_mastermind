@@ -28,6 +28,7 @@ vg_frame4_existe = False
 vg_mode_jeux = 0          # 0 = menu, 1 = 1 joueur, 2 = multijoueur
 vg_phase = 0     # 0:auccun joueur joue, 1 : joueur 1, 2 : joueur 2 (qui rentre le code)
 cpt_code = 0    # position liste du code à remplire
+vg_code_choisis = False
 
 #########truc aleatoire de l'ordi pour facon 1 joueur ###############
 HEIGHT_canva_aleatoire = 50
@@ -168,11 +169,14 @@ def f_2_menu() :
     vg_phase = 0
     f_g_reinitialisation()
 
+cpt_esset = 0
+
 def f_2_blue() :
-    global couleur, cpt, l_couleur, cpt_code
+    global couleur, cpt, l_couleur, cpt_code, cpt_esset
     couleur = "blue"
-    if vg_phase == 1 and cpt < 4:
+    if vg_phase == 1 and cpt_esset<4 :
         cpt += 1
+        cpt_esset += 1
         c_2_canvas_principal.itemconfigure(liste[cpt-1], fill = couleur)
         l_couleur.append(couleur)
         if cpt%4 == 0:
@@ -182,7 +186,7 @@ def f_2_blue() :
         cpt_code += 1
         c_4_canvas_aleatoire.itemconfigure(liste_al[cpt_code-1], fill = couleur)
         l_al.append(couleur)
-    if vg_phase == 1 and (not vg_frame4_existe) and cpt//4 != 0 :
+    if vg_mode_jeux == 2 and vg_phase == 1 and (not vg_frame4_existe) and cpt//4 != 0 :
         cpt += 1
         c_2_canvas_principal.itemconfigure(liste[cpt-1], fill = couleur)
         l_couleur.append(couleur)
@@ -191,10 +195,11 @@ def f_2_blue() :
         return couleur, l_couleur
 
 def f_2_red() :
-    global couleur, cpt, l_couleur, cpt_code
+    global couleur, cpt, l_couleur, cpt_code, cpt_esset
     couleur = "red"
-    if vg_phase == 1 and cpt < 4:
+    if vg_phase == 1 and cpt_esset<4 :
         cpt += 1
+        cpt_esset += 1
         c_2_canvas_principal.itemconfigure(liste[cpt-1], fill = couleur)
         l_couleur.append(couleur)
         if cpt%4 == 0:
@@ -204,7 +209,7 @@ def f_2_red() :
         cpt_code += 1
         c_4_canvas_aleatoire.itemconfigure(liste_al[cpt_code-1], fill = couleur)
         l_al.append(couleur)
-    if vg_phase == 1 and (not vg_frame4_existe) and cpt//4 != 0 :
+    if vg_mode_jeux == 2 and vg_phase == 1 and (not vg_frame4_existe) and cpt//4 != 0 :
         cpt += 1
         c_2_canvas_principal.itemconfigure(liste[cpt-1], fill = couleur)
         l_couleur.append(couleur)
@@ -213,10 +218,11 @@ def f_2_red() :
         return couleur, l_couleur
 
 def f_2_yellow() :
-    global couleur, cpt, l_couleur, cpt_code
+    global couleur, cpt, l_couleur, cpt_code, cpt_esset
     couleur = "yellow"
-    if vg_phase == 1 and cpt<4:
+    if vg_phase == 1 and cpt_esset<4 :
         cpt += 1
+        cpt_esset += 1
         c_2_canvas_principal.itemconfigure(liste[cpt-1], fill = couleur)
         l_couleur.append(couleur)
         if cpt%4 == 0:
@@ -226,7 +232,7 @@ def f_2_yellow() :
         cpt_code += 1
         c_4_canvas_aleatoire.itemconfigure(liste_al[cpt_code-1], fill = couleur)
         l_al.append(couleur)
-    if vg_phase == 1 and (not vg_frame4_existe) and cpt//4 != 0 :
+    if vg_mode_jeux == 2 and vg_phase == 1 and (not vg_frame4_existe) and cpt//4 != 0 :
         cpt += 1
         c_2_canvas_principal.itemconfigure(liste[cpt-1], fill = couleur)
         l_couleur.append(couleur)
@@ -235,10 +241,11 @@ def f_2_yellow() :
         return couleur, l_couleur
 
 def f_2_brown() :
-    global couleur, cpt, l_couleur, cpt_code
+    global couleur, cpt, l_couleur, cpt_code, cpt_esset
     couleur = "brown"
-    if vg_phase == 1 and cpt<4 :
+    if vg_phase == 1 and cpt_esset<4 :
         cpt += 1
+        cpt_esset += 1
         c_2_canvas_principal.itemconfigure(liste[cpt-1], fill = couleur)
         l_couleur.append(couleur)
         if cpt%4 == 0:
@@ -248,7 +255,7 @@ def f_2_brown() :
         cpt_code += 1
         c_4_canvas_aleatoire.itemconfigure(liste_al[cpt_code-1], fill = couleur)
         l_al.append(couleur)
-    if vg_phase == 1 and (not vg_frame4_existe) and cpt//4 != 0 :
+    if vg_mode_jeux == 2 and vg_phase == 1 and (not vg_frame4_existe) and cpt//4 != 0 :
         cpt += 1
         c_2_canvas_principal.itemconfigure(liste[cpt-1], fill = couleur)
         l_couleur.append(couleur)
@@ -257,10 +264,13 @@ def f_2_brown() :
         return couleur, l_couleur
 
 def f_2_pink() :
-    global couleur, cpt, l_couleur, cpt_code
+    global couleur, cpt, l_couleur, cpt_code, cpt_esset
     couleur = "pink"
-    if vg_phase == 1 and cpt<4:
+    print(vg_phase,cpt,vg_frame4_existe,cpt_code, cpt_esset)
+    if vg_phase == 1 and cpt_esset<4:
+        print("meh")
         cpt += 1
+        cpt_esset += 1
         c_2_canvas_principal.itemconfigure(liste[cpt-1], fill = couleur)
         l_couleur.append(couleur)
         if cpt%4 == 0:
@@ -270,7 +280,7 @@ def f_2_pink() :
         cpt_code += 1
         c_4_canvas_aleatoire.itemconfigure(liste_al[cpt_code-1], fill = couleur)
         l_al.append(couleur)
-    if vg_phase == 1 and (not vg_frame4_existe) and cpt//4 != 0 :
+    if vg_mode_jeux == 2 and vg_phase == 1 and (not vg_frame4_existe) and cpt_esset < 4 :
         cpt += 1
         c_2_canvas_principal.itemconfigure(liste[cpt-1], fill = couleur)
         l_couleur.append(couleur)
@@ -279,10 +289,11 @@ def f_2_pink() :
         return couleur, l_couleur
 
 def f_2_green() :
-    global couleur, cpt, l_couleur, cpt_code
+    global couleur, cpt, l_couleur, cpt_code, cpt_esset
     couleur = "green"
-    if vg_phase == 1 and cpt<4:
+    if vg_phase == 1 and cpt_esset<4 :
         cpt += 1
+        cpt_esset += 1
         c_2_canvas_principal.itemconfigure(liste[cpt-1], fill = couleur)
         l_couleur.append(couleur)
         if cpt%4 == 0:
@@ -292,7 +303,7 @@ def f_2_green() :
         cpt_code += 1
         c_4_canvas_aleatoire.itemconfigure(liste_al[cpt_code-1], fill = couleur)
         l_al.append(couleur)
-    if vg_phase == 1 and (not vg_frame4_existe) and cpt//4 != 0 :
+    if vg_mode_jeux == 2 and vg_phase == 1 and (not vg_frame4_existe) and cpt//4 != 0 :
         cpt += 1
         c_2_canvas_principal.itemconfigure(liste[cpt-1], fill = couleur)
         l_couleur.append(couleur)
@@ -301,10 +312,11 @@ def f_2_green() :
         return couleur, l_couleur
 
 def f_2_purple() :
-    global couleur, cpt, l_couleur, cpt_code
+    global couleur, cpt, l_couleur, cpt_code, cpt_esset
     couleur = "purple"
-    if vg_phase == 1 and cpt<4:
+    if vg_phase == 1 and cpt_esset<4 :
         cpt += 1
+        cpt_esset += 1
         c_2_canvas_principal.itemconfigure(liste[cpt-1], fill = couleur)
         l_couleur.append(couleur)
         if cpt%4 == 0:
@@ -314,7 +326,7 @@ def f_2_purple() :
         cpt_code += 1
         c_4_canvas_aleatoire.itemconfigure(liste_al[cpt_code-1], fill = couleur)
         l_al.append(couleur)
-    if vg_phase == 1 and (not vg_frame4_existe) and cpt//4 != 0 :
+    if vg_mode_jeux == 2 and vg_phase == 1 and (not vg_frame4_existe) and cpt//4 != 0 :
         cpt += 1
         c_2_canvas_principal.itemconfigure(liste[cpt-1], fill = couleur)
         l_couleur.append(couleur)
@@ -323,10 +335,11 @@ def f_2_purple() :
         return couleur, l_couleur
 
 def f_2_orange() :
-    global couleur, cpt, l_couleur, cpt_code
+    global couleur, cpt, l_couleur, cpt_code, cpt_esset
     couleur = "orange"
-    if vg_phase == 1 and cpt<4:
+    if vg_phase == 1 and cpt_esset<4 :
         cpt += 1
+        cpt_esset += 1
         c_2_canvas_principal.itemconfigure(liste[cpt-1], fill = couleur)
         l_couleur.append(couleur)
         if cpt%4 == 0:
@@ -336,7 +349,7 @@ def f_2_orange() :
         cpt_code += 1
         c_4_canvas_aleatoire.itemconfigure(liste_al[cpt_code-1], fill = couleur)
         l_al.append(couleur)
-    if vg_phase == 1 and (not vg_frame4_existe) and cpt//4 != 0 :
+    if vg_mode_jeux == 2 and vg_phase == 1 and (not vg_frame4_existe) and cpt//4 != 0 :
         cpt += 1
         c_2_canvas_principal.itemconfigure(liste[cpt-1], fill = couleur)
         l_couleur.append(couleur)
@@ -345,28 +358,30 @@ def f_2_orange() :
         return couleur, l_couleur
 
 def f_2_effacer() :
-    global couleur, cpt, l_couleur, cpt_code
+    global couleur, cpt, l_couleur, cpt_code, cpt_esset
     couleur = "grey"
     if vg_phase == 1 and cpt >= 0:
         if len(l_couleur) > 0:
             l_couleur.remove(l_couleur[-1])
+        if cpt_esset > 0:
+            cpt_esset -= 1
         if cpt > 0:
-            cpt = cpt-1
+            cpt -= 1
         c_2_canvas_principal.itemconfigure(liste[cpt], fill = couleur)
-    if vg_phase == 2 and vg_frame4_existe and cpt_code >= 0:
+    elif vg_phase == 2 and vg_frame4_existe and cpt_code >= 0:
         if cpt_code > 0:
-            cpt_code = cpt_code-1
+            cpt_code -= 1
         c_4_canvas_aleatoire.itemconfigure(liste_al[cpt_code], fill = couleur)
         if len(l_al)>0:
             l_al.remove(l_al[-1])
     
 
 def f_5_valider() :
-    global l_couleur, NbRightPlace, NbWrongPlace, cpt_valider, vg_frame4_existe, l_couleur, vg_phase
-    if vg_mode_jeux == 1 and l_couleur == 4:
+    global l_couleur, NbRightPlace, NbWrongPlace, cpt_valider, vg_frame4_existe, l_couleur, vg_phase, cpt_esset, vg_code_choisis
+    if vg_mode_jeux == 1 and len(l_couleur) == 4 and cpt_esset == 4:
         f_comparaison(l_al, l_couleur)
         l_couleur=[]
-        c_2_canvas_solutions.itemconfigure(liste_sol[(cpt_valider*2)], text = NbRightPlace)
+        c_2_canvas_solutions.itemconfigure(liste_sol[cpt_valider*2], text = NbRightPlace)
         c_2_canvas_solutions.itemconfigure(liste_sol[(cpt_valider*2) + 1], text = NbWrongPlace)
         cpt_valider += 1
         if NbRightPlace == 4 :
@@ -379,13 +394,18 @@ def f_5_valider() :
             vg_frame4_existe = True
         NbRightPlace = 0
         NbWrongPlace = 0
+        l_couleur = []
+        cpt_esset = 0
     if vg_mode_jeux == 2 :
-        if vg_phase == 2 and cpt_code == 4 and vg_frame4_existe :
+        if vg_phase == 2 and cpt_code == 4 and vg_frame4_existe and not vg_code_choisis:
             frame4.grid_forget()
             vg_phase = 1
-        elif vg_phase == 1 and l_couleur == 4 :
+            if not vg_code_choisis:
+                vg_code_choisis = True
+        elif vg_phase == 1 and len(l_couleur) == 4 and cpt_esset == 4:
             frame4.grid(row = 14, column = 3, columnspan = 4)
             vg_phase = 2
+            cpt_esset = 0
 
 
 def f_comparaison(l1, l2) :
@@ -500,17 +520,21 @@ b_5_valider.grid(row = 0, column = 0)
 
 ############################### creation racine 3 ################################
 
+cpt_sol_valider = 0
+
 def f_3_0() :
-    global cpt_sol, chiffre
-    if vg_phase == 2 :
+    global cpt_sol, chiffre, cpt_sol_valider
+    if vg_phase == 2 and cpt_sol_valider < 2 :
+        cpt_sol_valider += 1
         cpt_sol += 1
         chiffre = "0"
         c_2_canvas_solutions.itemconfigure(liste_sol[cpt_sol-1], text = chiffre)
         return chiffre
 
 def f_3_1() :
-    global cpt_sol, chiffre
-    if vg_phase == 2 :
+    global cpt_sol, chiffre, cpt_sol_valider
+    if vg_phase == 2 and cpt_sol_valider < 2 :
+        cpt_sol_valider += 1
         cpt_sol += 1
         chiffre = "1"
         c_2_canvas_solutions.itemconfigure(liste_sol[cpt_sol-1], text = chiffre)
@@ -518,43 +542,49 @@ def f_3_1() :
 
 
 def f_3_2() :
-    global cpt_sol, chiffre
-    if vg_phase == 2 :
+    global cpt_sol, chiffre, cpt_sol_valider
+    if vg_phase == 2 and cpt_sol_valider < 2 :
+        cpt_sol_valider += 1
         cpt_sol += 1
         chiffre = "2"
         c_2_canvas_solutions.itemconfigure(liste_sol[cpt_sol-1], text = chiffre)
         return chiffre
 
 def f_3_3() :
-    global cpt_sol, chiffre
-    if vg_phase == 2 :
+    global cpt_sol, chiffre, cpt_sol_valider
+    if vg_phase == 2 and cpt_sol_valider < 2 :
+        cpt_sol_valider += 1
         cpt_sol += 1
         chiffre = "3"
         c_2_canvas_solutions.itemconfigure(liste_sol[cpt_sol-1], text = chiffre)
         return chiffre
 
 def f_3_4() :
-    global cpt_sol, chiffre
-    if vg_phase == 2 :
+    global cpt_sol, chiffre, cpt_sol_valider
+    if vg_phase == 2 and cpt_sol_valider < 2 :
+        cpt_sol_valider += 1
         cpt_sol += 1
         chiffre = "4"
         c_2_canvas_solutions.itemconfigure(liste_sol[cpt_sol-1], text = chiffre)
         return chiffre
 
 def f_3_effacer() :
-    global cpt_sol, chiffre
+    global cpt_sol, chiffre, cpt_sol_valider
     if vg_phase == 2 :
         chiffre = ""
-        if cpt_sol>0:
-            cpt_sol=cpt_sol-1    
-        c_2_canvas_solutions.itemconfigure(liste_sol[(cpt_sol)], text = chiffre)
+        if cpt_sol > 0 :
+            cpt_sol -= 1 
+        if cpt_sol_valider > 0 :
+            cpt_sol_valider -= 1    
+        c_2_canvas_solutions.itemconfigure(liste_sol[cpt_sol], text = chiffre)
         return chiffre
 
 def f_3_valider() :
-    global vg_phase, cpt_sol, vg_frame4_existe
-    if vg_phase == 2 and cpt_sol//2 != 0:
+    global vg_phase, cpt_sol, vg_frame4_existe, cpt_sol_valider
+    if vg_phase == 2 and cpt_sol//2 != 0 and cpt_sol_valider == 2:
         frame4.grid_forget()
         vg_phase = 1
+        cpt_sol_valider = 0
         vg_frame4_existe = False
 
 b_3_0 = tk.Button(frame3, text = "0", command = lambda : f_3_0())
