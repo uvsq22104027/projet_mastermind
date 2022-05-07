@@ -186,7 +186,7 @@ def f_2_blue() :
         cpt_code += 1
         c_4_canvas_aleatoire.itemconfigure(liste_al[cpt_code-1], fill = couleur)
         l_al.append(couleur)
-    if vg_mode_jeux == 2 and vg_phase == 1 and (not vg_frame4_existe) and cpt//4 != 0 :
+    if vg_mode_jeux == 2 and vg_phase == 1 and (not vg_frame4_existe) and cpt_esset < 4 :
         cpt += 1
         c_2_canvas_principal.itemconfigure(liste[cpt-1], fill = couleur)
         l_couleur.append(couleur)
@@ -209,7 +209,7 @@ def f_2_red() :
         cpt_code += 1
         c_4_canvas_aleatoire.itemconfigure(liste_al[cpt_code-1], fill = couleur)
         l_al.append(couleur)
-    if vg_mode_jeux == 2 and vg_phase == 1 and (not vg_frame4_existe) and cpt//4 != 0 :
+    if vg_mode_jeux == 2 and vg_phase == 1 and (not vg_frame4_existe) and cpt_esset < 4 :
         cpt += 1
         c_2_canvas_principal.itemconfigure(liste[cpt-1], fill = couleur)
         l_couleur.append(couleur)
@@ -232,7 +232,7 @@ def f_2_yellow() :
         cpt_code += 1
         c_4_canvas_aleatoire.itemconfigure(liste_al[cpt_code-1], fill = couleur)
         l_al.append(couleur)
-    if vg_mode_jeux == 2 and vg_phase == 1 and (not vg_frame4_existe) and cpt//4 != 0 :
+    if vg_mode_jeux == 2 and vg_phase == 1 and (not vg_frame4_existe) and cpt_esset < 4 :
         cpt += 1
         c_2_canvas_principal.itemconfigure(liste[cpt-1], fill = couleur)
         l_couleur.append(couleur)
@@ -255,7 +255,7 @@ def f_2_brown() :
         cpt_code += 1
         c_4_canvas_aleatoire.itemconfigure(liste_al[cpt_code-1], fill = couleur)
         l_al.append(couleur)
-    if vg_mode_jeux == 2 and vg_phase == 1 and (not vg_frame4_existe) and cpt//4 != 0 :
+    if vg_mode_jeux == 2 and vg_phase == 1 and (not vg_frame4_existe) and cpt_esset < 4 :
         cpt += 1
         c_2_canvas_principal.itemconfigure(liste[cpt-1], fill = couleur)
         l_couleur.append(couleur)
@@ -266,9 +266,7 @@ def f_2_brown() :
 def f_2_pink() :
     global couleur, cpt, l_couleur, cpt_code, cpt_esset
     couleur = "pink"
-    print(vg_phase,cpt,vg_frame4_existe,cpt_code, cpt_esset)
     if vg_phase == 1 and cpt_esset<4:
-        print("meh")
         cpt += 1
         cpt_esset += 1
         c_2_canvas_principal.itemconfigure(liste[cpt-1], fill = couleur)
@@ -303,7 +301,7 @@ def f_2_green() :
         cpt_code += 1
         c_4_canvas_aleatoire.itemconfigure(liste_al[cpt_code-1], fill = couleur)
         l_al.append(couleur)
-    if vg_mode_jeux == 2 and vg_phase == 1 and (not vg_frame4_existe) and cpt//4 != 0 :
+    if vg_mode_jeux == 2 and vg_phase == 1 and (not vg_frame4_existe) and cpt_esset < 4 :
         cpt += 1
         c_2_canvas_principal.itemconfigure(liste[cpt-1], fill = couleur)
         l_couleur.append(couleur)
@@ -326,7 +324,7 @@ def f_2_purple() :
         cpt_code += 1
         c_4_canvas_aleatoire.itemconfigure(liste_al[cpt_code-1], fill = couleur)
         l_al.append(couleur)
-    if vg_mode_jeux == 2 and vg_phase == 1 and (not vg_frame4_existe) and cpt//4 != 0 :
+    if vg_mode_jeux == 2 and vg_phase == 1 and (not vg_frame4_existe) and cpt_esset < 4 :
         cpt += 1
         c_2_canvas_principal.itemconfigure(liste[cpt-1], fill = couleur)
         l_couleur.append(couleur)
@@ -349,7 +347,7 @@ def f_2_orange() :
         cpt_code += 1
         c_4_canvas_aleatoire.itemconfigure(liste_al[cpt_code-1], fill = couleur)
         l_al.append(couleur)
-    if vg_mode_jeux == 2 and vg_phase == 1 and (not vg_frame4_existe) and cpt//4 != 0 :
+    if vg_mode_jeux == 2 and vg_phase == 1 and (not vg_frame4_existe) and cpt_esset < 4 :
         cpt += 1
         c_2_canvas_principal.itemconfigure(liste[cpt-1], fill = couleur)
         l_couleur.append(couleur)
@@ -378,6 +376,7 @@ def f_2_effacer() :
 
 def f_5_valider() :
     global l_couleur, NbRightPlace, NbWrongPlace, cpt_valider, vg_frame4_existe, l_couleur, vg_phase, cpt_esset, vg_code_choisis
+    print(vg_mode_jeux,vg_phase, cpt_esset,len(l_couleur))
     if vg_mode_jeux == 1 and len(l_couleur) == 4 and cpt_esset == 4:
         f_comparaison(l_al, l_couleur)
         l_couleur=[]
@@ -397,12 +396,12 @@ def f_5_valider() :
         l_couleur = []
         cpt_esset = 0
     if vg_mode_jeux == 2 :
-        if vg_phase == 2 and cpt_code == 4 and vg_frame4_existe and not vg_code_choisis:
+        if vg_phase == 2 and cpt_code == 4 and vg_frame4_existe and not vg_code_choisis :
             frame4.grid_forget()
             vg_phase = 1
             if not vg_code_choisis:
                 vg_code_choisis = True
-        elif vg_phase == 1 and len(l_couleur) == 4 and cpt_esset == 4:
+        elif vg_phase == 1 and cpt_esset == 4 :
             frame4.grid(row = 14, column = 3, columnspan = 4)
             vg_phase = 2
             cpt_esset = 0
