@@ -37,7 +37,7 @@ vg_code_choisis = False
 l_place = [] #sauvegarde des nombres de billes bien/mal placées par proposition pour le sauvegarder dans un fichier
 l_prop = []  #liste des propositions valider par le joueur
 color = ["red", "orange", "yellow", "green", "blue", "purple", "brown", "pink"]
-allColorsCombination = list(product(color, repeat=8))  #toutes les combinaisons de couleurs possibles
+allColorsCombination = list(product(color, repeat=4))  #toutes les combinaisons de couleurs possibles
 l_score = []
 
 
@@ -189,42 +189,46 @@ def _proposition(l1, l2, l3):
                 l_aux[j] = True
                 break
     p.append([NRP, NWP])
+    print(p == l3)
     return p == l3
 
 
 def f_2_proposition() :
     """vérifie dans la liste de toutes les combinaisons possibles si elle vérifie le nombre de bille bien/mal placée par rapport aux essaies précédent"""
+    res = []
     if l_prop == []:
-        res = ("pink", "pink", "green", "green", "purple", "purple", "orange", "orange")
+        res = ["pink", "pink", "green", "green"]
     for i in range(len(allColorsCombination)):
         aux = False
         for j in range(len(l_prop)):
-            if not _proposition(allColorsCombination[i], l_prop[j], l_place[j]):
+            test = _proposition(allColorsCombination[i], l_prop[j], l_place[j])
+            if not test:
                 aux = False
                 break
             else:
                 aux = True
         if aux:
-            res = allColorsCombination[i]
+            res = list(allColorsCombination[i])
             break
 
     for i in range(len(res)):
         if res[i] == "pink":
-            f_2_pink()
+            f_2_pink
         elif res[i] == "green":
-            f_2_green()
+            f_2_green
         elif res[i] == "purple":
-            f_2_purple()
+            f_2_purple
         elif res[i] == "orange":
-            f_2_orange()
+            f_2_orange
         elif res[i] == "blue":
-            f_2_blue()
+            f_2_blue
         elif res[i] == "red":
-            f_2_red()
+            f_2_red
         elif res[i] == "yellow":
-            f_2_yellow()
+            f_2_yellow
         else:
-            f_2_brown()
+            f_2_brown
+        print("test")
 
     return res
 
