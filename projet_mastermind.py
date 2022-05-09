@@ -1,5 +1,9 @@
+from cmath import log
 import tkinter as tk
 import random
+from itertools import combinations_with_replacement, product
+
+from nbformat import write
 
 racine = tk.Tk()
 racine.title("MasterMind")
@@ -14,6 +18,7 @@ def bouton_1_joueur() :
     frame5.grid(row = 14, column = 8, columnspan = 2)
     vg_mode_jeux = 1
     vg_phase = 1
+        
     f_2_replay()
 
 frame1 = tk.Frame(racine)   #"menu"
@@ -29,6 +34,12 @@ vg_mode_jeux = 0          # 0 = menu, 1 = 1 joueur, 2 = multijoueur
 vg_phase = 0     # 0:auccun joueur joue, 1 : joueur 1, 2 : joueur 2 (qui rentre le code)
 cpt_code = 0    # position liste du code à remplire
 vg_code_choisis = False
+l_place = [] #sauvegarde des nombres de billes bien/mal placées par proposition pour le sauvegarder dans un fichier
+l_prop = []  #liste des propositions valider par le joueur
+color = ["red", "orange", "yellow", "green", "blue", "purple", "brown", "pink"]
+allColorsCombination = list(product(color, repeat=8))  #toutes les combinaisons de couleurs possibles
+l_score = []
+
 
 #########truc aleatoire de l'ordi pour facon 1 joueur ###############
 HEIGHT_canva_aleatoire = 50
@@ -37,7 +48,10 @@ WIDTH_canva_aleatoire = 50*4
 c_4_canvas_aleatoire = tk.Canvas(frame4, height = HEIGHT_canva_aleatoire, width=WIDTH_canva_aleatoire, bg = "grey")
 c_4_canvas_aleatoire.grid(row = 0, column = 0)
 
+
 liste_al = [] #
+
+
 def f_initialisation_rond_solution() :
     global liste_al
     for i in range(0, HEIGHT_canva_aleatoire, 50) :
@@ -46,9 +60,9 @@ def f_initialisation_rond_solution() :
             liste_al.append(rond)
 f_initialisation_rond_solution()
 
-color=["red", "orange", "yellow", "green", "blue", "purple", "brown", "pink"]
 
 l_al=[] #solution
+
 
 def f_reinitialisation_rond_solution() :
     for i in liste_al :
@@ -62,6 +76,7 @@ def f_solution_alleatoire() :
         l_al.append(x)
 
 ###### Pour la proposition de code, a adapter
+
 
 vg_l_bien_mal_place = [[] for i in range(10)]       # valeurs des b/m placé
 
@@ -152,11 +167,87 @@ def f_2_replay() :
     f_g_reinitialisation()
     l_2_instructions.config(text = "Bienvenue sur MasterMind ! \n voici quelques instructions sur la maniere de jouer \n un fois que vous avez placé vos couleurs, appuyez sur 'valider'. \n Si vous voulez changer, appuyez sur 'effacer'")
 
+def _proposition(l1, l2, l3):
+    """fonction auxiliaire qui vérifie si le nombre de bille bien/mal placée entre deux propositions sont égaux"""
+    p = []
+    NRP = 0
+    NWP = 0
+    l_aux = [False, False, False, False]
+    for i in range(len(l1)):
+        for j in range(len(l2)):
+            if l_aux[j]:
+                continue
+            elif l1[i] == l2[i]:
+                NRP += 1
+                l_aux[i] = True
+                break
+            elif l1[i] == l2[j]:
+                if i == j:
+                    NRP += 1
+                else:
+                    NWP += 1
+                l_aux[j] = True
+                break
+    p.append([NRP, NWP])
+    return p == l3
+
+
 def f_2_proposition() :
-    pass
+    """vérifie dans la liste de toutes les combinaisons possibles si elle vérifie le nombre de bille bien/mal placée par rapport aux essaies précédent"""
+    if l_prop == []:
+        res = ("pink", "pink", "green", "green", "purple", "purple", "orange", "orange")
+    for i in range(len(allColorsCombination)):
+        aux = False
+        for j in range(len(l_prop)):
+            if not _proposition(allColorsCombination[i], l_prop[j], l_place[j]):
+                aux = False
+                break
+            else:
+                aux = True
+        if aux:
+            res = allColorsCombination[i]
+            break
+
+    for i in range(len(res)):
+        if res[i] == "pink":
+            f_2_pink()
+        elif res[i] == "green":
+            f_2_green()
+        elif res[i] == "purple":
+            f_2_purple()
+        elif res[i] == "orange":
+            f_2_orange()
+        elif res[i] == "blue":
+            f_2_blue()
+        elif res[i] == "red":
+            f_2_red()
+        elif res[i] == "yellow":
+            f_2_yellow()
+        else:
+            f_2_brown()
+
+    return res
+
 
 def f_2_sauvergarde() :
-    pass
+    f = open("Mastermind_Save.txt", "w")
+    for e in l_al:
+        f.write(e)
+    f.write("\n")
+    aux = len(l_couleur)
+    i = 0
+    j = 0
+    while aux >= 4:
+        f.write(l_couleur[i])
+        if (i+1) % 4 == 0:
+            f.write(l_place[j][0])
+            f.write(l_place[j][1])
+            f.write("\n")
+            j += 1
+        aux -= 1
+    f.close()
+    
+    
 
 def f_2_menu() :
     global vg_mode_jeux, vg_phase
@@ -409,26 +500,31 @@ def f_5_valider() :
 
 def f_comparaison(l1, l2) :
     """Compare la proposition du joueur avec la solution, indique le nombre de billes au bonne endroits
-    et celles aux mauvais endroits"""
+    et celles aux mauvais endroits, ne fonctionne que si le joueur remplie la ligne de couleur"""
     global NbRightPlace
     global NbWrongPlace
-    l_aux = [False, False, False, False]
-    for i in range(len(l1)):
-        for j in range(len(l2)):
-            if l_aux[j]:
-                continue
-            elif l1[i] == l2[i]:
-                NbRightPlace += 1
-                l_aux[i] = True
-                break
-            elif l1[i] == l2[j]:
-                if i == j:
+    if len(l1) != 4:      #vérifie si le joueur a proposé 4 couleurs
+        pass
+    else:
+        l_aux = [False, False, False, False]
+        for i in range(len(l1)):
+            for j in range(len(l2)):
+                if l_aux[j]:
+                    continue
+                elif l1[i] == l2[i]:
                     NbRightPlace += 1
-                else:
-                    NbWrongPlace += 1
-                l_aux[j] = True
-                break
-    return NbRightPlace, NbWrongPlace
+                    l_aux[i] = True
+                    break
+                elif l1[i] == l2[j]:
+                    if i == j:
+                        NbRightPlace += 1
+                    else:
+                        NbWrongPlace += 1
+                    l_aux[j] = True
+                    break
+        l_place.append([NbRightPlace, NbWrongPlace])
+        l_prop.append(l1)
+        return NbRightPlace, NbWrongPlace
 
 
 ####### grille principale ############
